@@ -1,15 +1,36 @@
-import React from 'react';
+import {useState} from 'react';
 import Head from 'next/head';
 import styles from '../styles/Admin.module.css';
 
 export default function Admin() {
 
-    const showCourses = () => {
+    const [course, setCourse] = useState('');
 
+    const showCourses = (e) => {
+        let divs = document.getElementsByClassName('add');
+        for (div of divs) div.style.display = "none";
+        let div = e.target.children.item(1);
+        div.style.display = "block";
     }
 
-    const fillCourse = () => {
+    const fillCourse = (e) => {
+        setCourse(e.target.value);
+    }
 
+    const addCourse = (e) => {
+        fetch('http://localhost:3000/api/student/1/courses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({course: course}),
+        }).then(
+            response => response.json()
+        ).then(data => {
+            console.log('Success:', data);
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     return (
@@ -31,12 +52,18 @@ export default function Admin() {
                         <div>Enyinna Iroegbu</div>
                         <div>0</div>
                     </div>
-                    <div className={styles.addCourse}>
+                    <div className={styles.addCourse + " add"}>
                         <div className={styles.owner}>Courses for: <b>Enyinna Iroegbu</b></div>
                         <div>ENG 301</div>
                         <div>ACE 305</div>
-                        <input type="text" className={styles.newCourse} onChange={fillCourse} placeholder="Add Course" />
-                        <button className={styles.addButton}>ADD</button>
+                        <input 
+                            type="text" 
+                            className={styles.newCourse} 
+                            onChange={fillCourse} 
+                            placeholder="Add Course" 
+                            value={course}
+                        />
+                        <button className={styles.addButton} onClick={addCourse}>ADD</button>
                     </div>
                 </div>
             </main>

@@ -1,19 +1,11 @@
-import React from 'react';
+import {useState} from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
 
-    const setEmail = () => {
-
-    }
-    const setPassword = () => {
-
-    }
-
-    const login = () => {
-
-    }
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <div className={styles.container}>
@@ -24,11 +16,27 @@ export default function Home() {
             <main className={styles.main}>
                 <div className={styles.login}>
                     <div className={styles.formTitle}>Admin Login</div>
-                    <input type="text" className={styles.input} maxLength="60" onChange={setEmail} placeholder="Email" />
-                    <input type="password" className={styles.input} maxLength="60" onChange={setPassword} placeholder="Password" />
-                    <div className={styles.buttonCase}>
-                        <button className={styles.loginButton} onClick={login}>LOGIN</button>
-                    </div>
+                    <form  action="/api/login" method="POST">
+                        <input
+                            type="text"
+                            className={styles.input}
+                            maxLength="60" 
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            placeholder="Email"
+                        />
+                        <input
+                            type="password"
+                            className={styles.input}
+                            maxLength="60"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            placeholder="Password"
+                        />
+                        <div className={styles.buttonCase}>
+                            <button type="submit" className={styles.loginButton} >LOGIN</button>
+                        </div>
+                    </form>
                 </div>
             </main>
             <footer className="footer">

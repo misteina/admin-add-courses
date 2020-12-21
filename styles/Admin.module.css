@@ -1,0 +1,71 @@
+.main{
+    width: 95%;
+    margin: auto;
+    max-width: 600px;
+}
+
+.listTitle{
+    font-size: 30px;
+    padding: 20px 0;
+    font-weight: bold;
+}
+
+.rowHead{
+    width: 100%;
+}
+
+.rowHead div{
+    display: inline-block;
+    width: calc(100%/3);
+    text-align: center;
+    padding: 10px 0;
+    background-color: #efefef;
+}
+
+.row{
+    width: 100%;
+}
+
+.student{
+    width: 100%;
+    cursor: pointer;
+}
+
+.student div{
+    display: inline-block;
+    width: calc(100%/3);
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #dedcdc;
+}
+
+.addCourse{
+    border-top: 1px solid #dad9d9;
+    padding-top: 20px;
+}
+
+.owner{
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.newCourse{
+    margin: 10px 5px 0 0;
+    width: 30%;
+    min-width: 150px;
+    max-width: 200px;
+    height: 30px;
+    padding: 10px;
+    border: 1px solid #bfbfbf;
+    border-radius: 4px;
+}
+
+.addButton{
+    height: 30px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0 20px;
+    background-color: #1b8cec;
+}

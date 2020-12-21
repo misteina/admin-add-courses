@@ -24,11 +24,12 @@
 
 .row{
     width: 100%;
+    cursor: pointer;
 }
 
 .student{
     width: 100%;
-    cursor: pointer;
+    pointer-events: none;
 }
 
 .student div{
@@ -42,10 +43,10 @@
 .addCourse{
     border-top: 1px solid #dad9d9;
     padding-top: 20px;
+    display: none;
 }
 
 .owner{
-    font-weight: bold;
     font-size: 15px;
     margin-bottom: 10px;
 }

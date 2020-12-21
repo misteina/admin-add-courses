@@ -1,10 +1,12 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import Head from 'next/head';
 import styles from '../styles/Admin.module.css';
 
 export default function Admin() {
 
     const [course, setCourse] = useState('');
+
+    const idRef = useRef();
 
     const showCourses = (e) => {
         let divs = document.getElementsByClassName('add');
@@ -17,8 +19,9 @@ export default function Admin() {
         setCourse(e.target.value);
     }
 
-    const addCourse = (e) => {
-        fetch('http://localhost:3000/api/student/1/courses', {
+    const addCourse = () => {
+        let id = idRef.current.value;
+        fetch(`http://localhost:3000/api/student/${id}/courses`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,6 +66,7 @@ export default function Admin() {
                             placeholder="Add Course" 
                             value={course}
                         />
+                        <input type="hidden" ref={idRef} value={id} />
                         <button className={styles.addButton} onClick={addCourse}>ADD</button>
                     </div>
                 </div>

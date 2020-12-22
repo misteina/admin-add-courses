@@ -2,10 +2,32 @@ import {useState} from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
+
 export default function Home() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const login = (e) => {
+        fetch(`http://localhost:3000/api/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email, password: password }),
+        }).then(
+            response => response.json()
+        ).then(data => {
+            if (data.status === 'error'){
+                setError();
+            } else {
+                e.target.submit();
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
     return (
         <div className={styles.container}>
@@ -16,7 +38,8 @@ export default function Home() {
             <main className={styles.main}>
                 <div className={styles.login}>
                     <div className={styles.formTitle}>Admin Login</div>
-                    <form  action="/api/login" method="POST">
+                    {error}
+                    <form onSubmit={login}>
                         <input
                             type="text"
                             className={styles.input}

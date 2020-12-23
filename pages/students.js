@@ -10,10 +10,16 @@ export default function Students({students}) {
     const [course, setCourse] = useState('');
 
     const showCourses = (e) => {
-        let divs = document.getElementsByClassName('add');
-        for (div of divs) div.style.display = "none";
-        let div = e.target.nextSibling;
-        div.style.display = "block";
+        let courseList = e.target.nextSibling;
+        if (courseList.style.display === "none" || courseList.style.display.length === 0){
+            let divs = document.getElementsByClassName('add');
+            for (let i = 0;i < divs.length;i++) {
+                divs[i].style.display = "none";
+            }
+            courseList.style.display = "block";
+        } else {
+            courseList.style.display = "none";
+        }
     }
 
     const fillCourse = (e) => {
@@ -32,10 +38,13 @@ export default function Students({students}) {
         }).then(
             response => response.json()
         ).then(data => {
-            console.log(data)
             if (data.status === "success"){
                 let courseList = e.target.parentElement.children.item(1);
-                courseList.innerHTML += `<div>${course}</div>`
+                courseList.innerHTML += `<div>${course}</div>`;
+                setCourse('');
+
+                let totalCourses = e.target.parentElement.previousSibling.children.item(2);
+                totalCourses.innerHTML = parseInt(totalCourses.innerHTML) + 1;
             }
         }).catch((error) => {
             console.error('Error:', error);

@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import apiKey from '../auth/apiKey';
 
 
 export default function Home() {
@@ -79,5 +80,17 @@ function Error({show}){
         return <div className={styles.error}>Incorrect login details</div>
     } else {
         return null;
+    }
+}
+
+export async function getServerSideProps(context) {
+    const cookie = context.req.cookies;
+    if (typeof cookie.auth !== 'undefined' && cookie.auth === apiKey) {
+        return {
+            redirect: {
+                destination: '/students',
+                permanent: false,
+            }
+        } 
     }
 }

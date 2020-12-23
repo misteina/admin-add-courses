@@ -2,8 +2,6 @@ import apiKey from '../../../../auth/apiKey';
 
 export default function handler (req, res) {
 
-    console.log(req.cookies.auth)
-
     if (req.cookies.auth === apiKey){
         const id = req.query.id;
         const course = req.body.course;

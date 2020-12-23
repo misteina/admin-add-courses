@@ -17,6 +17,11 @@ a {
 
 .footer {
     position: fixed;
+    color: #3a3a3a;
+    width: 100%;
+    font-size: 12px;
     bottom: 0;
     right: 0;
+    padding: 10px;
+    text-align: center;
 }

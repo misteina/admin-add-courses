@@ -10,6 +10,16 @@
 .main {
     width: 100%;
 }
+#showerror{
+    display: none;
+}
+
+.error{
+    width: 80%;
+    margin: 10px auto;
+    color: red;
+    font-size: 14px;
+}
 
 .formTitle, .buttonCase{
     width: 80%;

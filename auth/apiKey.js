@@ -1,1 +1,1 @@
-export default 'YFwR4CSzaGcvfUpW8tzo';
+module.exports = 'YFwR4CSzaGcvfUpW8tzo';

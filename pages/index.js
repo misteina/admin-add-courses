@@ -7,9 +7,13 @@ export default function Home() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(false);
 
     const login = (e) => {
+        e.preventDefault();
+        let form = document.getElementsByTagName('form')[0];
+        let button = form.getElementsByTagName('button')[0];
+        button.disabled = true;
         fetch(`http://localhost:3000/api/login`, {
             method: 'POST',
             headers: {
@@ -20,9 +24,10 @@ export default function Home() {
             response => response.json()
         ).then(data => {
             if (data.status === 'error'){
-                setError();
+                setError('display:block');
+                button.disabled = false;
             } else {
-                e.target.submit();
+                window.location.href = 'http://localhost:3000/students';
             }
         }).catch((error) => {
             console.error('Error:', error);
@@ -38,7 +43,7 @@ export default function Home() {
             <main className={styles.main}>
                 <div className={styles.login}>
                     <div className={styles.formTitle}>Admin Login</div>
-                    {error}
+                    <Error show={error} />
                     <form onSubmit={login}>
                         <input
                             type="text"
@@ -63,8 +68,16 @@ export default function Home() {
                 </div>
             </main>
             <footer className="footer">
-                Created by Enyinna Iroegbu, enyinna.job@gmail.com
+                Created by <b>Enyinna Iroegbu</b>, enyinna.job@gmail.com
             </footer>
         </div>
     )
+}
+
+function Error({show}){
+    if (show){
+        return <div className={styles.error}>Incorrect login details</div>
+    } else {
+        return null;
+    }
 }

@@ -29,7 +29,6 @@
 
 .student{
     width: 100%;
-    pointer-events: none;
 }
 
 .student div{
@@ -37,6 +36,7 @@
     width: calc(100%/3);
     padding: 20px 0;
     text-align: center;
+    pointer-events: none;
     border-top: 1px solid #dedcdc;
 }
 
@@ -47,12 +47,10 @@
 }
 
 .owner{
-    font-size: 15px;
-    margin-bottom: 10px;
-}
+    font-size: 15px;}
 
 .newCourse{
-    margin: 10px 5px 0 0;
+    margin: 20px 10px 20px 0;
     width: 30%;
     min-width: 150px;
     max-width: 200px;

@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Head from 'next/head';
-import styles from '../styles/Admin.module.css';
+import styles from '../styles/students.module.css';
 import apiKey from '../auth/apiKey';
 import connection from '../database/connection';
 
@@ -12,7 +12,7 @@ export default function Students({students}) {
     const showCourses = (e) => {
         let divs = document.getElementsByClassName('add');
         for (div of divs) div.style.display = "none";
-        let div = e.target.children.item(1);
+        let div = e.target.nextSibling;
         div.style.display = "block";
     }
 
@@ -22,16 +22,21 @@ export default function Students({students}) {
 
     const addCourse = (e) => {
         let id = e.target.previousSibling.value;
-        fetch(`http://localhost:3000/api/student/${id}/courses`, {
+        fetch(`http://localhost:3000/api/students/${id}/courses`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify({course: course}),
         }).then(
             response => response.json()
         ).then(data => {
-            console.log('Success:', data);
+            console.log(data)
+            if (data.status === "success"){
+                let courseList = e.target.parentElement.children.item(1);
+                courseList.innerHTML += `<div>${course}</div>`
+            }
         }).catch((error) => {
             console.error('Error:', error);
         });
@@ -51,18 +56,20 @@ export default function Students({students}) {
                     <div>Courses</div>
                 </div>
                 {
-                    students.map((student) => {
-                        <div key={student.id} className={styles.row} onClick={showCourses}>
-                            <div className={styles.student}>
+                    students.map((student) => 
+                        <div key={student.id} className={styles.row}>
+                            <div className={styles.student} onClick={showCourses}>
                                 <div>{student.id}</div>
                                 <div>{student.name}</div>
-                                <div>{student.totalCourses}</div>
+                                <div>{JSON.parse(student.courses).length}</div>
                             </div>
                             <div className={styles.addCourse + " add"}>
                                 <div className={styles.owner}>Courses for: <b>{student.name}</b></div>
-                                {
-                                    student.courses.map((course, index) => <div key={index}>{course}</div>)
-                                }
+                                <div>
+                                    {
+                                        JSON.parse(student.courses).map((course, index) => <div key={index}>{course}</div>)
+                                    }
+                                </div>
                                 <input
                                     type="text"
                                     className={styles.newCourse}
@@ -74,31 +81,20 @@ export default function Students({students}) {
                                 <button className={styles.addButton} onClick={addCourse}>ADD</button>
                             </div>
                         </div>
-                    })
+                    )
                 }
             </main>
             <footer className="footer">
-                Created by Enyinna Iroegbu, enyinna.job@gmail.com
+                Created by <b>Enyinna Iroegbu</b>, enyinna.job@gmail.com
             </footer>
         </div>
     )
 }
 
 export async function getServerSideProps(context) {
-
     const cookie = context.req.cookies;
-
-    if (typeof cookie['key'] !== 'undefined' && cookie['key'] === apiKey){
-
-        let students = [];
-        await connection.query('SELECT * from students LIMIT 5', 
-            (error, results, fields) => {
-                if (error) throw error;
-                if (results.length > 0){
-                    students = [...results];
-                }
-            }
-        );
+    if (typeof cookie.auth !== 'undefined' && cookie.auth === apiKey){
+        let students = await getStudents();
         return {
             props: { students }
         }
@@ -110,4 +106,17 @@ export async function getServerSideProps(context) {
             },
         }
     }
+}
+
+function getStudents() {
+    return new Promise(resolve => {
+        connection.query('SELECT * from students LIMIT 5',
+            (error, results, fields) => {
+                if (error) throw error;
+                if (results.length > 0) {
+                    resolve(JSON.parse(JSON.stringify(results)));
+                }
+            }
+        );
+    });
 }

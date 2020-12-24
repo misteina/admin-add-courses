@@ -2,7 +2,7 @@ import apiKey from '../../../../auth/apiKey';
 
 export default function handler (req, res) {
 
-    if (req.cookies.auth === apiKey){
+    if (req.cookies.auth === apiKey || req.headers.credential === apiKey){
         const id = req.query.id;
         const course = req.body.course;
 
@@ -37,6 +37,6 @@ export default function handler (req, res) {
             res.json({ errId: 2, status: 'error', data: errors });
         }
     } else {
-        res.json({ errId: 3, status: 'error', message: 'Unauthorized request' });
+        res.json({ errId: 3, status: 'error', data: 'Unauthorized request' });
     }
 }

@@ -28,16 +28,18 @@ export default function Students({students}) {
 
     const addCourse = (e) => {
         let id = e.target.previousSibling.value;
+
         fetch(`http://localhost:3000/api/students/${id}/courses`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Credential': apiKey
             },
-            credentials: "include",
             body: JSON.stringify({course: course}),
         }).then(
             response => response.json()
         ).then(data => {
+            console.log(data.data)
             if (data.status === "success"){
                 let courseList = e.target.parentElement.children.item(1);
                 courseList.innerHTML += `<div>${course}</div>`;
@@ -67,7 +69,7 @@ export default function Students({students}) {
                 {
                     students.map((student) => 
                         <div key={student.id} className={styles.row}>
-                            <div className={styles.student} onClick={showCourses}>
+                            <div className={styles.student + " item"} onClick={showCourses}>
                                 <div>{student.id}</div>
                                 <div>{student.name}</div>
                                 <div>{JSON.parse(student.courses).length}</div>

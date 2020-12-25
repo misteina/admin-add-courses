@@ -5,7 +5,7 @@ import apiKey from '../auth/apiKey';
 import connection from '../database/connection';
 
 
-export default function Students({students}) {
+export default function Students({students, port}) {
 
     const [course, setCourse] = useState('');
 
@@ -29,7 +29,7 @@ export default function Students({students}) {
     const addCourse = (e) => {
         let id = e.target.previousSibling.value;
 
-        fetch(`http://localhost:3000/api/students/${id}/courses`, {
+        fetch(`http://localhost:${port}/api/students/${id}/courses`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,6 @@ export default function Students({students}) {
         }).then(
             response => response.json()
         ).then(data => {
-            console.log(data.data)
             if (data.status === "success"){
                 let courseList = e.target.parentElement.children.item(1);
                 courseList.innerHTML += `<div>${course}</div>`;
@@ -104,10 +103,11 @@ export default function Students({students}) {
 
 export async function getServerSideProps(context) {
     const cookie = context.req.cookies;
+    const port = process.env.PORT;
     if (typeof cookie.auth !== 'undefined' && cookie.auth === apiKey){
         let students = await getStudents();
         return {
-            props: { students }
+            props: { students, port }
         }
     } else {
         return {

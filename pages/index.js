@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 import apiKey from '../auth/apiKey';
 
 
-export default function Home() {
+export default function Home({port}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +15,7 @@ export default function Home() {
         let form = document.getElementsByTagName('form')[0];
         let button = form.getElementsByTagName('button')[0];
         button.disabled = true;
-        fetch(`http://localhost:3000/api/login`, {
+        fetch(`http://localhost:${port}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default function Home() {
                 setError('display:block');
                 button.disabled = false;
             } else {
-                window.location.href = 'http://localhost:3000/students';
+                window.location.href = `http://localhost:${port}/students`;
             }
         }).catch((error) => {
             console.error('Error:', error);
@@ -85,6 +85,7 @@ function Error({show}){
 
 export async function getServerSideProps(context) {
     const cookie = context.req.cookies;
+    const port = process.env.PORT;
     if (typeof cookie.auth !== 'undefined' && cookie.auth === apiKey) {
         return {
             redirect: {
@@ -94,6 +95,6 @@ export async function getServerSideProps(context) {
         } 
     }
     return {
-        props:{}
+        props:{port}
     }
 }

@@ -1,33 +1,33 @@
-email: admin@xyz.com
-password: hf7rytrgt
+SETUP STEPS
+-----------
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+1. Download the repository
 
-## Getting Started
+2. cd into the downloaded folder
 
-First, run the development server:
+3. Run `npm install` to install the dependencies.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+4. Edit the `./.env` file and add your database user name and password.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Run `yarn start` to start server.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+6. Visit `http://localhost:3000 on the browser.
 
-## Learn More
+7. Use email: `admin@xyz.com` and password: `hf7rytrgt` as the administrator login credentials.
 
-To learn more about Next.js, take a look at the following resources:
+8. To run the test coverage, run `npx cypress open` from within the downloaded project folder. The cypress GUI opens and then click on the button to run integration spec.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+9. To use docker containers, run `docker-compose up` to build and start the containers.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+10. Execute an interactive bash shell on the db container using `docker-compose exec db bash`
 
-## Deploy on Vercel
+11. Inside the container, log into the MySQL root administrative account: `mysql -u root -p` and type in `9j5gyg5t` as the root password.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+12. Create a database user and password by issuing the following mysql prompt command: 
+`GRANT ALL ON school.* TO 'admin'@'%' IDENTIFIED BY 'rurh64u493s';`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+13. Flush privileges `FLUSH PRIVILEGES;`
+
+14. Still at the mysql prompt, import the `./database/schema.sql` file into the database to seed data by first running `use school;` and then running `source /home/node/app/database/schema.sql;`
+
+15. Exit from the mysql prompt and then the container by typing `exit`

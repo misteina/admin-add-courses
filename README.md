@@ -28,6 +28,6 @@ SETUP STEPS
 
 13. Flush privileges `FLUSH PRIVILEGES;`
 
-14. Still at the mysql prompt, import the `./database/schema.sql` file into the database to seed data by first running `use school;` and then running `source /home/node/app/database/schema.sql;`
+14. Still at the mysql prompt, import the `./database/tables.sql` file into the database to seed data by first running `use school;` and then running `source /home/node/app/database/tables.sql;`
 
 15. Exit from the mysql prompt and then the container by typing `exit`
